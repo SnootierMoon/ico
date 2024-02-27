@@ -1,6 +1,6 @@
 const std = @import("std");
 const lm = @import("lm.zig");
-const SimplexNoise = @import("simplex.zig").Noise;
+const SimplexNoise = @import("noise.zig").Simplex;
 
 const Icosphere = @This();
 
@@ -34,8 +34,7 @@ pub fn init(allocator: std.mem.Allocator, seed: u32, subdivisions: usize) !Icosp
 
     const noise = SimplexNoise{ .seed = seed };
     for (self.verts) |*vert| {
-        _ = noise;
-        const s = 1.0; // noise.get(vert[0], vert[1], vert[2]).val;
+        const s = 1.0 + 0.05 * noise.get(vert[0], vert[1], vert[2]).val;
         vert[0] *= s;
         vert[1] *= s;
         vert[2] *= s;
